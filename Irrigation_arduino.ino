@@ -8,7 +8,6 @@ RH_ASK rf_driver;
 int soilsensor = A0;
 #define DHT11_PIN A1
 int water_pump = 5;
-int med_pump = 6;
  
 int soilValue = 0;
 int moisture_percentage;
@@ -19,9 +18,7 @@ void setup(){
   Serial.begin(9600);
   pinMode(soilsensor, INPUT);
   pinMode(water_pump, OUTPUT); // Relay
-  pinMode(med_pump, OUTPUT);  // Relay
-
-  digitalWrite(med_pump, HIGH);
+ 
   digitalWrite(water_pump, HIGH);
 
 }
@@ -38,7 +35,6 @@ void loop(){
       moisture_percentage = ( 100 - ( (soilValue/1023.00) * 100 ) );
       
       String combine=String(moisture_percentage)+"-"+String(temp)+"-"+humid;
-      const char *msg = combine.c_str();
       rf_driver.send((uint8_t *)msg, strlen(msg));
       rf_driver.waitPacketSent();
       delay(1000);
@@ -64,15 +60,7 @@ void loop(){
   
    }
    
-  if(inst=="m")
-  {
-      digitalWrite(med_pump, LOW);
-      
-  }
-  if(inst=="s")
-  {
-      digitalWrite(med_pump, HIGH);
-  }
+  
 
  
 }
