@@ -31,19 +31,12 @@ void loop(){
       int chk = DHT.read11(DHT11_PIN);
       int temp=(DHT.temperature);
       int humid=(DHT.humidity);
-      //delay(500);
-	    //Serial.print("Temperature: ");
-      //Serial.println(temp);
-	    //Serial.print("Humidity: ");
-      //Serial.println(humid);
+      
 
       soilValue = analogRead(soilsensor);
       
       moisture_percentage = ( 100 - ( (soilValue/1023.00) * 100 ) );
-      //Serial.print("Moisture Percentage = ");
-      //Serial.print(moisture_percentage);
-      //Serial.println(" %");
-
+      
       String combine=String(moisture_percentage)+"-"+String(temp)+"-"+humid;
       const char *msg = combine.c_str();
       rf_driver.send((uint8_t *)msg, strlen(msg));
@@ -59,7 +52,7 @@ void loop(){
      }
      else if(moisture_percentage > 38){
       digitalWrite(water_pump, HIGH);
-      //Serial.println("Soil has enough water for plant");
+      
       
      }
      Serial.println(String(moisture_percentage)+"-"+String(temp)+"-"+humid);
